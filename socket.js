@@ -5,7 +5,7 @@
 import WebSocket from 'ws';
 
 // Config por env o defaults
-const WS_URL = process.env.WS_URL || 'ws://localhost:13001/ws';
+const WS_URL = process.env.WS_URL || 'ws://node2.liit.com.ar:13001/ws';
 const TOKEN = process.env.LD_TOKEN || '123456';
 
 // Pequeños helpers
