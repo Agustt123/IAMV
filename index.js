@@ -7,6 +7,8 @@ import { monitorRouter } from './route/monitor.js';
 import { initLinternaController } from './controller/linterna/linterna.js';
 import { mensajeRouter } from './route/mensaje.js';
 import { initMensajeController } from './controller/texto/mensaje.js';
+import { sonidoRouter } from './route/sonido.js';
+import { initSonidoController } from './controller/sonido/sonido.js';
 
 
 const PORT = Number(process.env.PORT || 13001);
@@ -21,10 +23,17 @@ const server = http.createServer(app);
 const bus = new WsBus({ server, path: WS_PATH, token: TOKEN, ackTimeoutMs: 7000 });
 initLinternaController(bus);
 initMensajeController(bus);
+initSonidoController(bus);
 
 app.use('/', linternaRouter());
 app.use('/monitor', monitorRouter(bus));
 app.use('/mensaje', mensajeRouter());
+app.use('/sonido', sonidoRouter());
+
+// después de crear el bus:
+
+// después de los otros app.use:
+
 
 app.use((err, _req, res, _next) => {
   console.error(err);
