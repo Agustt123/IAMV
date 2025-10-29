@@ -1,3 +1,4 @@
+// server.js (fragmento)
 import 'dotenv/config';
 import express from 'express';
 import http from 'http';
@@ -10,6 +11,10 @@ import { mensajeRouter } from './route/mensaje.js';
 import { sonidoRouter } from './route/sonido.js';
 import { fotoRouter } from './route/foto.js';
 
+// 👇 NUEVOS
+import { waRouter } from './route/wa.js';
+import { initWaController } from './controller/wa/wa.js';
+
 import { initLinternaController } from './controller/linterna/linterna.js';
 import { initMensajeController } from './controller/texto/mensaje.js';
 import { initSonidoController } from './controller/sonido/sonido.js';
@@ -20,15 +25,8 @@ const TOKEN = process.env.LD_TOKEN || '123456';
 const WS_PATH = process.env.WS_PATH || '/ws';
 
 const app = express();
-
-// ⚠️ Body parser UNA sola vez, y con límite grande si vas a manejar base64
 app.use(express.json({ limit: '10mb' }));
 
-// (Opcional) CORS básico si vas a pegarle desde otro origen
-// import cors from 'cors';
-// app.use(cors());
-
-// (Opcional) Servir uploads estáticos si usás SAVE_DIR
 if (process.env.SAVE_DIR) {
   app.use('/uploads', express.static(process.env.SAVE_DIR, { fallthrough: true }));
 }
@@ -38,11 +36,13 @@ const server = http.createServer(app);
 // WS Bus
 const bus = new WsBus({ server, path: WS_PATH, token: TOKEN, ackTimeoutMs: 7000 });
 
-// Inicializar controladores que usan el bus
+// Inicializar controladores
 initLinternaController(bus);
 initMensajeController(bus);
 initSonidoController(bus);
 initFotoController(bus);
+// 👇 NUEVO: init wa
+initWaController(bus);
 
 // Routers HTTP
 app.use('/', linternaRouter());
@@ -50,6 +50,8 @@ app.use('/monitor', monitorRouter(bus));
 app.use('/mensaje', mensajeRouter());
 app.use('/sonido', sonidoRouter());
 app.use('/foto', fotoRouter());
+// 👇 NUEVO: router wa
+app.use('/wa', waRouter());
 
 // Manejo de errores
 app.use((err, _req, res, _next) => {
