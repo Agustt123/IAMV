@@ -12,7 +12,7 @@ import { sonidoRouter } from './route/sonido.js';
 import { fotoRouter } from './route/foto.js';
 
 // 👇 NUEVOS
-import { waRouter } from './route/wa.js';
+import { waRouter } from './route/wa_action.js';
 import { initWaController } from './controller/wa/wa.js';
 
 import { initLinternaController } from './controller/linterna/linterna.js';
