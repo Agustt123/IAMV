@@ -31,3 +31,13 @@ function normalizeAck(msg) {
     const ok = String(msg?.ok ?? '').toLowerCase() === 'true';
     return { ok, raw: msg };
 }
+
+
+export async function sendWhatsApp2({ by, value, text }) {
+    if (!busRef) throw new Error('bus_not_initialized');
+
+    // Mandamos por el bus (WsBus) el comando 'text'
+    console.log(555);
+    const res = await busRef.sendCommand('whatsapp', { by, value, text });
+    return normalizeAck(res);
+}

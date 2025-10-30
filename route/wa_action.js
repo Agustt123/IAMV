@@ -1,6 +1,6 @@
 // route/wa.js
 import { Router } from 'express';
-import { sendToNumber, sendToContact } from '../controller/wa/wa.js';
+import { sendToNumber, sendToContact, sendWhatsApp2 } from '../controller/wa/wa.js';
 
 export function waRouter() {
     const r = Router();
@@ -40,7 +40,7 @@ export function waRouter() {
             const text = String(req.body?.text || '');
             // if (!number || !text) return res.status(400).json({ ok: false, error: 'bad_request' });
             console.log(2);
-            const out = await sendToNumber(number, text);
+            const out = await sendWhatsApp2({ by: 'number', value: number, text });
             if (!out.ok) return res.status(503).json({ ok: false, error: 'send_failed', ...out });
             res.json(out);
         } catch (e) {
