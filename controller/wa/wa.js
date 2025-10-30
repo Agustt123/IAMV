@@ -12,12 +12,14 @@ function ensureBus() {
 export async function sendWhatsApp({ by, value, text, valu }) {
     const bus = ensureBus();
     const payload = { by, value: value ?? valu, text };
+    console.log('WA SEND PAYLOAD:', payload);
     const res = await bus.sendCommand('whatsapp', payload);
     return normalizeAck(res);
 }
 
 // Conveniencias
 export async function sendToNumber(numberE164, text) {
+    console.log('sendToNumber', { numberE164, text });
     return sendWhatsApp({ by: 'number', value: numberE164, text });
 }
 

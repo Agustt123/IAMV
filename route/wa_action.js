@@ -35,9 +35,11 @@ export function waRouter() {
     // Conveniencia: enviar a NÚMERO — body { number: '+54911...', text: '...' }
     r.post('/send/number', async (req, res) => {
         try {
-            const number = String(req.body?.number || '');
+            console.log(1);
+            const number = String(req.body?.value || '');
             const text = String(req.body?.text || '');
-            if (!number || !text) return res.status(400).json({ ok: false, error: 'bad_request' });
+            // if (!number || !text) return res.status(400).json({ ok: false, error: 'bad_request' });
+            console.log(2);
             const out = await sendToNumber(number, text);
             if (!out.ok) return res.status(503).json({ ok: false, error: 'send_failed', ...out });
             res.json(out);
