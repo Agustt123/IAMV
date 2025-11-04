@@ -10,6 +10,10 @@ import { monitorRouter } from './route/monitor.js';
 import { mensajeRouter } from './route/mensaje.js';
 import { sonidoRouter } from './route/sonido.js';
 import { fotoRouter } from './route/foto.js';
+// 👇 NUEVOS
+import { llamadaRouter } from './route/llamada.js';
+import { initLlamadaController } from './controller/llamada/llamada.js';
+
 
 // 👇 NUEVOS
 import { waRouter } from './route/wa_action.js';
@@ -43,6 +47,8 @@ initSonidoController(bus);
 initFotoController(bus);
 // 👇 NUEVO: init wa
 initWaController(bus);
+initLlamadaController(bus);
+
 
 // Routers HTTP
 app.use('/', linternaRouter());
@@ -52,6 +58,8 @@ app.use('/sonido', sonidoRouter());
 app.use('/foto', fotoRouter());
 // 👇 NUEVO: router wa
 app.use('/wa', waRouter());
+app.use('/llamada', llamadaRouter());
+
 
 // Manejo de errores
 app.use((err, _req, res, _next) => {
