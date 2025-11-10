@@ -1,17 +1,41 @@
 export const createTools = (bus) => ({
-    enviarMensajeWS: async ({ to, mensaje }) => {
-        return await bus.send('mensaje', { to, mensaje });
-    },
+    // 🔦 Linterna
     encenderLinterna: async ({ to }) => {
         return await bus.send('linterna', { to, action: 'on' });
     },
+    apagarLinterna: async ({ to }) => {
+        return await bus.send('linterna', { to, action: 'off' });
+    },
+
+    // 💬 Mensajes
+    enviarMensajeWS: async ({ to, mensaje }) => {
+        return await bus.send('mensaje', { to, mensaje });
+    },
+
+    // 🔊 Sonido
     reproducirSonido: async ({ to, sonido }) => {
         return await bus.send('sonido', { to, sonido });
     },
+
+    // 📸 Foto
     tomarFoto: async ({ to }) => {
         return await bus.send('foto', { to });
     },
-    // Puedes seguir añadiendo herramientas de tus controladores actuales
+
+    // 🗺️ Ubicación
+    obtenerUbicacion: async ({ to }) => {
+        return await bus.send('ubicacion', { to });
+    },
+
+    // ☎️ Llamada
+    hacerLlamada: async ({ to }) => {
+        return await bus.send('llamada', { to });
+    },
+
+    // 💬 WhatsApp
+    enviarWhatsApp: async ({ to, text }) => {
+        return await bus.send('wa', { to, text });
+    },
 });
 
 export let tools = null;
