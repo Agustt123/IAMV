@@ -36,6 +36,9 @@ export const createTools = (bus) => ({
     enviarWhatsApp: async ({ to, text }) => {
         return await bus.send('wa', { to, text });
     },
+    enviarUbicacion: async ({ latitud, longitud }) => {
+        return await enviarUbicacion({ latitud, longitud });
+    },
 });
 
 export let tools = null;
